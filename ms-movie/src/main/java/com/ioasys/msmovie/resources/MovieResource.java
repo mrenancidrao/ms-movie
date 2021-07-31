@@ -41,7 +41,7 @@ public class MovieResource {
 	}
 	
 	@GetMapping(value = "/{id}")
-	@ApiOperation(value = "Retorna um filme específico")
+	@ApiOperation(value = "Retorna um filme específico conforme id informado")
 	public ResponseEntity<Movie> findById(@PathVariable Long id) {
 		Movie obj = repository.findById(id).get();
 		return ResponseEntity.ok(obj);
@@ -54,16 +54,18 @@ public class MovieResource {
 		return ResponseEntity.ok(obj);
 	}
 	
-	@DeleteMapping()
-	@ApiOperation(value = "Deleta um filme")
-	public void delete(@RequestBody Movie movie) {
-		repository.delete(movie);
-	}
-	
 	@PutMapping()
-	@ApiOperation(value = "Atualiza um filme")
+	@ApiOperation(value = "Atualiza um filme passando os dados em JSON")
 	public ResponseEntity<Movie> update(@RequestBody Movie movie) {
 		Movie obj = repository.save(movie);
 		return ResponseEntity.ok(obj);
 	}
+	
+	@DeleteMapping(value = "/{id}")
+	@ApiOperation(value = "Deleta um filme conforme id informado")
+	public void delete(@PathVariable Long id) {
+		Movie obj = repository.findById(id).get();
+		repository.delete(obj);
+	}
+	
 }
