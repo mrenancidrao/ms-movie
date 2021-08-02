@@ -3,6 +3,7 @@ package com.ioasys.msmovie.resources;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,7 @@ public class MovieRatingResource {
 
 	@PostMapping()
 	@ApiOperation(value = "Salva uma nova avaliação/voto recebendo JSON com informações de filme, avaliação/voto e usuário que está votando")
+	@PreAuthorize("hasAnyAuthority('USER')")
 	public ResponseEntity<MovieRating> save(@RequestBody MovieRating movieRating) {
 		MovieRating obj = repository.save(movieRating);
 		return ResponseEntity.ok(obj);
