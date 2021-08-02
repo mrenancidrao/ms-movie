@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ioasys.msmovie.entities.User;
@@ -18,10 +19,19 @@ public class UserServiceImpl implements UserService {
 
 	private UserRepository userRepository;
 	private JwtTokenProvider jwtTokenProvider;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	public UserServiceImpl(UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+	public UserServiceImpl(UserRepository userRepository, JwtTokenProvider jwtTokenProvider, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userRepository = userRepository;
 		this.jwtTokenProvider = jwtTokenProvider;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+	
+	@Override
+	public User save(User user) throws UsernameNotFoundException {
+		String passEncrypt = bCryptPasswordEncoder.encode(user.getPassword());
+		user.setPassword(passEncrypt);
+		return userRepository.save(user);
 	}
 	
 	@Override

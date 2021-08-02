@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +41,6 @@ public class UserResource {
 	private RoleRepository roleRepository;
 	private UserService userService;
 	private JwtTokenProvider jwtTokenProvider;
-	
 	
 	public UserResource(UserRepository repository, RoleRepository roleRepository, UserService userService) {
 		super();
@@ -75,7 +75,8 @@ public class UserResource {
 	@PostMapping()
 	@ApiOperation(value = "Salva um novo usuário")
 	public ResponseEntity<UserAuthenticateDto> save(@RequestBody User user) {
-		User obj = repository.save(user);
+		
+		User obj = userService.save(user);
 		return ResponseEntity.ok(UserAuthenticateDto.toDto(obj, "Bearer "));
 	}
 	
