@@ -1,10 +1,11 @@
 package com.ioasys.msmovie.entities;
 
-import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -15,9 +16,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -25,8 +29,10 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	@Column(unique = true)
 	private String email;
 	private String password;
+	private String token;
 	private boolean active;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -80,6 +86,14 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public boolean isActive() {
 		return active;
 	}
@@ -111,6 +125,42 @@ public class User implements Serializable {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return this.active;
 	}
 
 	

@@ -9,12 +9,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity
 @Table(name = "tb_role")
-public class Role implements Serializable {
+public class Role implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Long id;
@@ -37,11 +39,11 @@ public class Role implements Serializable {
 		this.id = id;
 	}
 
-	public String getRoleName() {
+	public String getName() {
 		return name;
 	}
 
-	public void setRoleName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -60,6 +62,11 @@ public class Role implements Serializable {
 			return false;
 		Role other = (Role) obj;
 		return Objects.equals(name, other.name);
+	}
+
+	@Override
+	public String getAuthority() {
+		return this.name;
 	}
 	
 }

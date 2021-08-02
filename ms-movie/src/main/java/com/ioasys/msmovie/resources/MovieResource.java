@@ -1,7 +1,9 @@
 package com.ioasys.msmovie.resources;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ioasys.msmovie.dto.MovieDto;
 import com.ioasys.msmovie.entities.Movie;
 import com.ioasys.msmovie.repositories.MovieRepository;
 
@@ -35,10 +39,24 @@ public class MovieResource {
 
 	@GetMapping
 	@ApiOperation(value = "Retorna lista completa de filmes")
-	public ResponseEntity<List<Movie>> findAll() {
-		List<Movie> list = repository.findAll();
+	public ResponseEntity<Page<Movie>> findAll(Pageable pageable) {
+		Page<Movie> list = repository.findAll(pageable);
 		return ResponseEntity.ok(list);
 	}
+	
+	@PostMapping(value = "/filter")
+	@ApiOperation(value = "Retorna lista de filmes com opções de filtros por nome, diretor, gênero e atores.")
+	public ResponseEntity<Page<Movie>> findMovies(@RequestBody MovieDto filtro, @PageableDefault(sort = "name", direction = Direction.ASC) Pageable pageable) {
+		Page<Movie> list = repository.findMovies(filtro, pageable);
+		return ResponseEntity.ok(list);
+	}
+	
+//	@PostMapping(value = "/filter/orderByRating")
+//	@ApiOperation(value = "Retorna lista filmes com opções de filtros por nome, diretor, gênero e atores. Ordenado por média de voto/avaliação.")
+//	public ResponseEntity<Page<Movie>> findMoviesOrderByRating(@RequestBody MovieDto filtro, @PageableDefault(sort = "averageRating", direction = Direction.DESC) Pageable pageable) {
+//		Page<Movie> list = repository.findMovies(filtro, pageable);
+//		return ResponseEntity.ok(list);
+//	}
 	
 	@GetMapping(value = "/{id}")
 	@ApiOperation(value = "Retorna um filme específico conforme id informado")
@@ -67,5 +85,4 @@ public class MovieResource {
 		Movie obj = repository.findById(id).get();
 		repository.delete(obj);
 	}
-	
 }

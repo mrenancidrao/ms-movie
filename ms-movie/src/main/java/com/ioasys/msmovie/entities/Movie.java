@@ -14,10 +14,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -42,6 +49,11 @@ public class Movie implements Serializable {
 		inverseJoinColumns = @JoinColumn(name = "actor_id")
 	)
 	private Set<Actor> actors = new HashSet<>();
+	
+	@OneToMany(mappedBy = "movie")
+	@JsonIgnore
+	private Set<MovieRating> rates = new HashSet<>();
+
 	
 	public Movie() {
 		
@@ -94,6 +106,13 @@ public class Movie implements Serializable {
 
 	public void setActors(Set<Actor> actors) {
 		this.actors = actors;
+	}
+
+	public double getAverageRating() {
+		return this.rates.stream()
+                .mapToDouble(d -> d.getRating())
+                .average()
+                .orElse(0.0);
 	}
 
 	@Override
