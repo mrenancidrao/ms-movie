@@ -8,7 +8,7 @@
 
 - Para acessar os endpoints é necessário efetuar uma requisição POST no endpoint '/users/login'
 
-- Será retornado um token que deverá ser inserido no Authorization da requisição via postman.
+- Será retornado um token Bearer que deverá ser inserido no Authorization da requisição via postman.
 
 - As senhas estão sendo salvas criptografadas com BCrypt mas não conclui o decode no login, portanto enviarei dados de 
 autenticação com a string encriptada:
