@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 		if (user==null) {
 			throw new UsernameNotFoundException("Usuário não encontrado");
 		}
-		if (user.getPassword().equals(password)) {
+		if (user.getPassword().equals(bCryptPasswordEncoder.encode(password))) {
 			String tokenGenerated= jwtTokenProvider.createToken(email, user.getRoles());
 			user.setToken(tokenGenerated);
 			return user;
