@@ -1,4 +1,4 @@
-# Desafio Pessoa Desenvolvedora Java
+# Desafio Java
 
 ## 🏗 O que fazer?
 
