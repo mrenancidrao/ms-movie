@@ -19,18 +19,14 @@
 - Teste de integração da API em linguagem de sua preferência (damos importância para pirâmide de testes)
 - Cobertura de testes utilizando Sonarqube
 - Utilização de *Docker* (enviar todos os arquivos e instruções necessárias para execução do projeto)
-
-# 🕵🏻‍♂️ Itens a serem avaliados
-
 - Estrutura do projeto
 - Utilização de código limpo e princípios **SOLID**
 - Segurança da API, como autenticação, senhas salvas no banco, *SQL Injection* e outros
 - Boas práticas da Linguagem/Framework
-- Seu projeto deverá seguir tudo o que foi exigido na seção  [O que desenvolver?](##--o-que-desenvolver)
 
 # 🖥 O que desenvolver?
 
-Você deverá criar uma API que o site [IMDb](https://www.imdb.com/) irá consultar para exibir seu conteúdo, sua API deverá conter as seguintes funcionalidades:
+Criar uma API que o site [IMDb](https://www.imdb.com/) irá consultar para exibir seu conteúdo, sua API deverá conter as seguintes funcionalidades:
 
 - Administrador
     - Cadastro
