@@ -19,7 +19,3 @@ autenticação com a string encriptada:
 
 - Os dados de acesso de outros usuários poderão ser visualizados no endpoint '/user/all'
 
-- Ficou pendente controlar as authorities de USER e ADMIN, dessa forma todos os endpoint ainda estão acessíveis para qualquer requisição com token ;(
-
-- Fico pendente os testes unitários
-
